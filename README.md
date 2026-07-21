@@ -1,6 +1,6 @@
 # mochi-portfolio
 
-三宅泰知の制作物、スキル、経歴をまとめたポートフォリオです。
+制作物、スキル、経歴をまとめたポートフォリオです。
 
 **Live:** [mochi-portfolio.pages.dev](https://mochi-portfolio.pages.dev)
 
