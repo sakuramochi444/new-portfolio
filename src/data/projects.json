@@ -82,5 +82,22 @@
     "accent": "magenta",
     "codeSnippet": "const quiz = await import(`../data/quizzes/${slug}.json`);\nrenderQuiz(quiz.questions);",
     "images": []
+  },
+  {
+    "id": "mochi-portfolio",
+    "title": "mochi-portfolio",
+    "period": "2026.07 - 継続中",
+    "summary": "黒板と一本の糸をモチーフに、制作物と人柄を伝えるポートフォリオ",
+    "description": "黒板へ貼ったメモや写真を一本の糸がつないでいく表現を軸に、Works・Skills・Careerを横断して見られるポートフォリオを設計・実装しました。レスポンシブ対応に加え、Skillsの回転式ナビゲーションや項目ごとに揺らぎのある紐、JSONで管理するコンテンツ編集画面を実装。管理画面はCloudflare Accessで保護し、編集内容をGitHubへコミットしてCloudflare Pagesへ自動反映します。お問い合わせはPages FunctionsとResendを通して、ブラウザに秘密情報を出さず送信できる構成です。",
+    "role": "個人開発（企画・デザイン・フロントエンド・運用設計）",
+    "tags": ["Vite", "TypeScript", "Cloudflare Pages", "GitHub API"],
+    "skillIds": ["typescript", "javascript", "html", "css", "github"],
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/sakuramochi444/new-portfolio" },
+      { "label": "Live Demo", "url": "https://mochi-portfolio.pages.dev" }
+    ],
+    "accent": "yellow",
+    "codeSnippet": "const data = PortfolioRepository.load();\nconst app = new PortfolioApp(\"#app\");\napp.bootstrap();",
+    "images": []
   }
 ]
