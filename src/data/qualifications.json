@@ -1,0 +1,4 @@
+[
+  { "id": "fe", "name": "基本情報技術者試験", "date": "2025.10", "accent": "cyan" },
+  { "id": "sg", "name": "情報セキュリティマネジメント試験", "date": "2026.06", "accent": "magenta" }
+]

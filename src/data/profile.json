@@ -1,0 +1,17 @@
+{
+  "name": "三宅 泰知",
+  "nameReading": "Miyake Taichi",
+  "role": "高専生 / エンジニア",
+  "tagline": "高専にいるタイプの高専生です。",
+  "bio": [
+    "大阪公立大学工業高等専門学校 総合工学システム学科 知能情報コースに在学中。趣味はプログラミング、ゲーム、アニメです。",
+    "最近はアルゴ式でのC#学習やLPICレベル1の勉強を通じて、Linuxの操作に挑戦しています。今の目標は応用情報技術者試験に合格することです。",
+    "学校での個人・チーム開発だけでなく、インターンを通じて商用サービスの開発プロセスや運用も現場で学んでいます。"
+  ],
+  "location": "大阪, Japan",
+  "email": "tomo.sakuramochi444@gmail.com",
+  "socials": [
+    { "label": "GitHub", "url": "https://github.com/sakuramochi444", "icon": "github" },
+    { "label": "Mail", "url": "mailto:tomo.sakuramochi444@gmail.com", "icon": "mail" }
+  ]
+}

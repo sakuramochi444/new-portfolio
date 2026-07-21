@@ -1,0 +1,23 @@
+[
+  { "id": "csharp", "name": "C#", "category": "language", "level": 4, "note": "Unity開発の中心", "accent": "cyan" },
+  { "id": "cpp", "name": "C++", "category": "language", "level": 3, "note": "アルゴリズムの基礎", "accent": "yellow" },
+  { "id": "python", "name": "Python", "category": "language", "level": 3, "note": "画像処理や自動化に", "accent": "magenta" },
+  { "id": "javascript", "name": "JavaScript", "category": "language", "level": 3, "note": "Webツール開発で使用", "accent": "cyan" },
+  { "id": "html", "name": "HTML5", "category": "language", "level": 4, "note": "基本のマークアップ", "accent": "yellow" },
+  { "id": "css", "name": "CSS3", "category": "language", "level": 3, "note": "スタイリング全般", "accent": "magenta" },
+  { "id": "typescript", "name": "TypeScript", "category": "language", "level": 3, "note": "インターン業務で使用", "accent": "yellow" },
+  { "id": "unity", "name": "Unity", "category": "tool", "level": 4, "note": "ゲーム制作の主戦場", "accent": "cyan" },
+  { "id": "nodejs", "name": "Node.js", "category": "tool", "level": 2, "note": "サーバーサイドの実装に", "accent": "magenta" },
+  { "id": "prisma", "name": "Prisma", "category": "tool", "level": 2, "note": "DBとのやりとりに", "accent": "yellow" },
+  { "id": "arduino", "name": "Arduino", "category": "tool", "level": 2, "note": "マイコン制御に挑戦中", "accent": "cyan" },
+  { "id": "github", "name": "GitHub", "category": "tool", "level": 4, "note": "バージョン管理の基本", "accent": "magenta" },
+  { "id": "nextjs", "name": "Next.js", "category": "framework", "level": 3, "note": "個人開発のWebアプリで使用", "accent": "magenta" },
+  { "id": "react", "name": "React", "category": "framework", "level": 3, "note": "Next.jsとあわせて", "accent": "yellow" },
+  { "id": "tailwindcss", "name": "TailwindCSS", "category": "framework", "level": 3, "note": "スタイリングを効率化", "accent": "cyan" },
+  { "id": "astro", "name": "Astro", "category": "framework", "level": 2, "note": "静的サイト構築に興味あり", "accent": "yellow" },
+  { "id": "docker", "name": "Docker", "category": "infra", "level": 2, "note": "開発環境の構築に", "accent": "magenta" },
+  { "id": "linux", "name": "Linux", "category": "infra", "level": 2, "note": "LPICレベル1に挑戦中", "accent": "yellow" },
+  { "id": "supabase", "name": "Supabase", "category": "infra", "level": 2, "note": "個人開発のDB/認証に", "accent": "cyan" },
+  { "id": "aws", "name": "AWS", "category": "infra", "level": 2, "note": "軽く触った程度", "accent": "magenta" },
+  { "id": "vercel", "name": "Vercel", "category": "infra", "level": 3, "note": "個人開発のデプロイ先", "accent": "yellow" }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "student-support-tool",
+    "title": "学生支援ツール",
+    "period": "2024.11 - 2025.01",
+    "summary": "高専祭・HackUで発表した学生支援ツール「教えあい広場」",
+    "description": "2024年度高専祭での中間発表、そしてHackUで最終発表しました。チーム「CCC」の一員としてこの学生支援ツールを開発。主に全体的なデザイン、ヘッダー、そして「教えあい広場」の部分を担当しました。",
+    "role": "デザイン・ヘッダー・「教えあい広場」担当(チーム開発)",
+    "tags": ["HTML5", "CSS3", "JavaScript", "Node.js"],
+    "skillIds": ["html", "css", "javascript", "nodejs"],
+    "links": [{ "label": "GitHub", "url": "https://github.com/misorange/Organisator.git" }],
+    "accent": "cyan",
+    "codeSnippet": "function renderPost(post) {\n  const el = document.createElement(\"li\");\n  el.textContent = `${post.author}: ${post.question}`;\n  boardList.appendChild(el);\n}",
+    "images": ["/images/works/student-support-tool.png"]
+  },
+  {
+    "id": "black-white-puzzle",
+    "title": "白黒パズル",
+    "period": "2024 - 制作中",
+    "summary": "自作の「白黒」テーマのパズルゲーム(デモ版)",
+    "description": "パズルゲームが好きなので、自作の「白黒」テーマのパズルゲームを作成しました。現在開発中でデモ版しかありませんが、基本的なゲームプレイは実装されています。ぜひ、プレイしていただき、フィードバックをいただけると嬉しいです!",
+    "role": "個人開発",
+    "tags": ["Python", "Unity", "C#"],
+    "skillIds": ["python", "unity", "csharp"],
+    "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/BlackWhitePazzle" }],
+    "accent": "magenta",
+    "codeSnippet": "void ToggleTile(int x, int y) {\n  var tile = grid[x, y];\n  tile.IsBlack = !tile.IsBlack;\n  CheckClearCondition();\n}",
+    "images": [
+      "/images/works/black-white-puzzle-1.png",
+      "/images/works/black-white-puzzle-2.png",
+      "/images/works/black-white-puzzle-3.png",
+      "/images/works/black-white-puzzle-4.png"
+    ]
+  },
+  {
+    "id": "motion-dungeon-rpg",
+    "title": "身体連動型ダンジョンRPG",
+    "period": "2025.11",
+    "summary": "加速度センサ×画像処理で操作する身体連動型ダンジョンRPG",
+    "description": "2025年度高専祭で展示した、加速度センサとカメラでの画像処理による物理的なインタラクションを実現したダンジョンRPGゲームです。プレイヤーは実際に体を動かして向き変更や歩行、攻撃を制御し、ゲーム内での冒険を楽しむことができます。",
+    "role": "Unityでのゲームシステム構築・C#プログラミング担当",
+    "tags": ["Unity", "C#", "画像処理"],
+    "skillIds": ["unity", "csharp", "python"],
+    "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/2025s_kosensai.git" }],
+    "accent": "yellow",
+    "codeSnippet": "void OnAccelerationChanged(Vector3 accel) {\n  var tilt = Mathf.Clamp(accel.x, -1f, 1f);\n  player.Move(tilt * moveSpeed);\n}",
+    "images": ["/images/works/motion-dungeon-rpg.png"]
+  },
+  {
+    "id": "inventory-tool",
+    "title": "備品在庫管理ツール",
+    "period": "2025 - 継続中",
+    "summary": "部活動などのチーム向け備品在庫管理Webアプリ",
+    "description": "備品の在庫管理を行うためのWebアプリケーションです。部活動などのチームで在庫を簡易的に管理したい団体向けのアプリです。",
+    "role": "個人開発",
+    "tags": ["Next.js 15", "React 19", "Prisma", "TailwindCSS 4"],
+    "skillIds": ["nextjs", "react", "prisma", "tailwindcss"],
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/sakuramochi444/next-app.git" },
+      { "label": "Live Demo", "url": "https://next-app-tau-beige.vercel.app" }
+    ],
+    "accent": "cyan",
+    "codeSnippet": "const items = await prisma.item.findMany({\n  where: { teamId },\n  orderBy: { updatedAt: \"desc\" },\n});",
+    "images": [
+      "/images/works/inventory-tool-1.png",
+      "/images/works/inventory-tool-2.png",
+      "/images/works/inventory-tool-3.png",
+      "/images/works/inventory-tool-4.png",
+      "/images/works/inventory-tool-5.png"
+    ]
+  },
+  {
+    "id": "quiz-web-app",
+    "title": "クイズWEBアプリ",
+    "period": "2026.03 - 継続中",
+    "summary": "インターン先で商店街のクイズイベント用に開発したWebアプリ",
+    "description": "長期インターン先において、商店街で開催されるイベントの一環として、商店街に関するクイズを出題するWEBアプリケーションをAstro、TypeScript、CSS3を用いて開発しました。URLの階層分けによって各クイズが固有のURLを持つ設計にし、現地のQRコードを読み取ることで複数のクイズにスムーズに挑戦できる仕組みを構築。クイズの問題や解答データはJSONファイルで管理する構成にし、非エンジニアの担当者でも中身の編集や更新が容易に行えるよう運用面に配慮して設計・実装しました。※諸事情により、実際のリンク・画像は非公開です。",
+    "role": "個人開発(長期インターン業務)",
+    "tags": ["Astro", "TypeScript", "CSS3"],
+    "skillIds": ["astro", "typescript", "css"],
+    "links": [],
+    "accent": "magenta",
+    "codeSnippet": "const quiz = await import(`../data/quizzes/${slug}.json`);\nrenderQuiz(quiz.questions);",
+    "images": []
+  }
+]
