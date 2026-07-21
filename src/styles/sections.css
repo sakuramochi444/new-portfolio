@@ -663,6 +663,20 @@
   min-height: 1.2em;
 }
 
+.contact__honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.contact__submit:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
 /* ---------- footer ---------- */
 .board-footer {
   padding: 2.5rem var(--section-pad-x) 3rem;

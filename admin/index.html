@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yomogi&family=Klee+One:wght@400;600&display=swap" />
+    <title>Portfolio Admin</title>
+  </head>
+  <body>
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <p class="admin-eyebrow">// portfolio.content.edit()</p>
+          <h1>Portfolio Admin</h1>
+          <p>保存するとGitHubのmainブランチが更新され、自動公開が始まります。</p>
+        </div>
+        <a href="/" class="admin-link">公開サイトを見る ↗</a>
+      </header>
+
+      <div class="admin-layout">
+        <nav class="admin-files" aria-label="編集するJSONファイル">
+          <button type="button" data-file="profile" class="is-active">Profile</button>
+          <button type="button" data-file="skills">Skills</button>
+          <button type="button" data-file="projects">Works</button>
+          <button type="button" data-file="experience">Career</button>
+          <button type="button" data-file="qualifications">Licenses</button>
+        </nav>
+
+        <section class="admin-editor" aria-labelledby="editor-title">
+          <div class="admin-editor__top">
+            <div>
+              <p class="admin-file-path" data-file-path>src/data/profile.json</p>
+              <h2 id="editor-title" data-editor-title>Profile</h2>
+            </div>
+            <span class="admin-validity" data-validity>確認中</span>
+          </div>
+
+          <label class="admin-editor__label" for="json-editor">JSON</label>
+          <textarea id="json-editor" data-json-editor spellcheck="false" autocomplete="off" disabled></textarea>
+
+          <div class="admin-actions">
+            <button type="button" class="admin-button admin-button--quiet" data-format disabled>整形</button>
+            <button type="button" class="admin-button admin-button--quiet" data-reload disabled>GitHubから再読込</button>
+            <button type="button" class="admin-button admin-button--save" data-save disabled>保存して公開</button>
+          </div>
+          <p class="admin-status" data-admin-status aria-live="polite">GitHubから読み込んでいます…</p>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="/src/admin.ts"></script>
+  </body>
+</html>

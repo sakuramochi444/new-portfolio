@@ -1,0 +1,12 @@
+{
+  "name": "new-portfolio",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-07-21",
+  "vars": {
+    "GITHUB_OWNER": "sakuramochi444",
+    "GITHUB_REPO": "new-portfolio",
+    "GITHUB_BRANCH": "main",
+    "ADMIN_EMAIL": "tomo.sakuramochi444@gmail.com",
+    "CONTACT_TO": "tomo.sakuramochi444@gmail.com"
+  }
+}
