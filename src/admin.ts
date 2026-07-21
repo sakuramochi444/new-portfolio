@@ -81,8 +81,10 @@ async function loadFile(file: ContentFile): Promise<void> {
     const response = await fetch(`/api/admin/content?file=${encodeURIComponent(file)}`, {
       headers: { Accept: "application/json" },
     });
-    const body = (await response.json()) as { content?: unknown; sha?: string; error?: string };
-    if (!response.ok || !body.sha) throw new Error(body.error ?? "JSONを取得できませんでした。");
+    const body = (await response.json()) as { content?: unknown; sha?: string; error?: string; code?: string };
+    if (!response.ok || !body.sha) {
+      throw new Error([body.error ?? "JSONを取得できませんでした。", body.code].filter(Boolean).join("\n"));
+    }
 
     activeSha = body.sha;
     lastLoadedText = formatJson(body.content);
@@ -131,10 +133,10 @@ saveButton.addEventListener("click", async () => {
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ content, sha: activeSha }),
     });
-    const body = (await response.json()) as { sha?: string; error?: string; details?: string[] };
+    const body = (await response.json()) as { sha?: string; error?: string; details?: string[]; code?: string };
     if (!response.ok) {
       const detail = body.details?.join("\n");
-      throw new Error([body.error, detail].filter(Boolean).join("\n") || "保存に失敗しました。");
+      throw new Error([body.error, body.code, detail].filter(Boolean).join("\n") || "保存に失敗しました。");
     }
 
     activeSha = body.sha ?? activeSha;

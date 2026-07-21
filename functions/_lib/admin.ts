@@ -47,22 +47,52 @@ export async function requireAdmin(request: Request, env: AdminEnv): Promise<Res
   const token = request.headers.get("cf-access-jwt-assertion");
   if (!token) return jsonResponse({ error: "Cloudflare Accessの認証が必要です。" }, 401);
 
+  const rawTeamDomain = env.CF_ACCESS_TEAM_DOMAIN?.trim();
+  const expectedAudience = env.CF_ACCESS_AUD?.trim().replace(/^["']|["']$/g, "");
+  const expectedEmail = env.ADMIN_EMAIL?.trim().toLowerCase();
+  if (!rawTeamDomain || !expectedAudience || !expectedEmail) {
+    return jsonResponse(
+      { error: "管理者認証の環境変数が不足しています。", code: "ACCESS_CONFIG_MISSING" },
+      500,
+    );
+  }
+
+  let teamDomain: string;
+  try {
+    const url = new URL(/^https?:\/\//i.test(rawTeamDomain) ? rawTeamDomain : `https://${rawTeamDomain}`);
+    if (url.protocol !== "https:") throw new Error("Team domain must use HTTPS");
+    teamDomain = url.origin;
+  } catch {
+    return jsonResponse(
+      { error: "CF_ACCESS_TEAM_DOMAINの形式を確認してください。", code: "ACCESS_TEAM_DOMAIN_INVALID" },
+      500,
+    );
+  }
+
   const parts = token.split(".");
-  if (parts.length !== 3) return jsonResponse({ error: "認証トークンの形式が不正です。" }, 401);
+  if (parts.length !== 3) {
+    return jsonResponse({ error: "認証トークンの形式が不正です。", code: "ACCESS_TOKEN_INVALID" }, 401);
+  }
 
   try {
     const header = decodeJsonPart<AccessHeader>(parts[0]);
     const claims = decodeJsonPart<AccessClaims>(parts[1]);
-    if (header.alg !== "RS256" || !header.kid) throw new Error("Unsupported JWT");
+    if (header.alg !== "RS256" || !header.kid) {
+      return jsonResponse({ error: "認証トークンの署名方式が不正です。", code: "ACCESS_TOKEN_ALGORITHM" }, 401);
+    }
 
-    const teamDomain = env.CF_ACCESS_TEAM_DOMAIN.replace(/\/$/, "");
-    const certResponse = await fetch(`${teamDomain}/cdn-cgi/access/certs`, {
-      cf: { cacheTtl: 3600, cacheEverything: true },
-    } as RequestInit);
-    if (!certResponse.ok) throw new Error("Unable to load Access signing keys");
+    const certResponse = await fetch(`${teamDomain}/cdn-cgi/access/certs`);
+    if (!certResponse.ok) {
+      return jsonResponse(
+        { error: "Cloudflare Accessの署名鍵を取得できません。Team Domainを確認してください。", code: "ACCESS_CERTS_UNAVAILABLE" },
+        502,
+      );
+    }
     const certs = (await certResponse.json()) as { keys?: AccessJwk[] };
     const jwk = certs.keys?.find((key) => key.kid === header.kid);
-    if (!jwk) throw new Error("Signing key not found");
+    if (!jwk) {
+      return jsonResponse({ error: "認証トークンに対応する署名鍵がありません。", code: "ACCESS_KEY_NOT_FOUND" }, 401);
+    }
 
     const publicKey = await crypto.subtle.importKey(
       "jwk",
@@ -81,19 +111,23 @@ export async function requireAdmin(request: Request, env: AdminEnv): Promise<Res
     const now = Math.floor(Date.now() / 1000);
     const audiences = Array.isArray(claims.aud) ? claims.aud : claims.aud ? [claims.aud] : [];
     const email = claims.email?.toLowerCase();
-    const valid =
-      signatureValid &&
-      claims.iss === teamDomain &&
-      audiences.includes(env.CF_ACCESS_AUD) &&
-      typeof claims.exp === "number" &&
-      claims.exp > now &&
-      (typeof claims.nbf !== "number" || claims.nbf <= now) &&
-      email === env.ADMIN_EMAIL.toLowerCase();
-
-    if (!valid) return jsonResponse({ error: "この管理画面を利用する権限がありません。" }, 403);
+    if (!signatureValid) return jsonResponse({ error: "認証トークンの署名が不正です。", code: "ACCESS_SIGNATURE_INVALID" }, 401);
+    if (claims.iss?.replace(/\/$/, "") !== teamDomain) {
+      return jsonResponse({ error: "AccessのTeam Domainが一致しません。", code: "ACCESS_ISSUER_MISMATCH" }, 401);
+    }
+    if (!audiences.includes(expectedAudience)) {
+      return jsonResponse({ error: "Access ApplicationのAUDが一致しません。", code: "ACCESS_AUDIENCE_MISMATCH" }, 401);
+    }
+    if (typeof claims.exp !== "number" || claims.exp <= now || (typeof claims.nbf === "number" && claims.nbf > now)) {
+      return jsonResponse({ error: "認証セッションの有効期限が切れています。", code: "ACCESS_TOKEN_EXPIRED" }, 401);
+    }
+    if (email !== expectedEmail) {
+      return jsonResponse({ error: "この管理画面を利用する権限がありません。", code: "ACCESS_EMAIL_MISMATCH" }, 403);
+    }
     return null;
-  } catch {
-    return jsonResponse({ error: "管理者認証を確認できませんでした。" }, 401);
+  } catch (error) {
+    console.error("Cloudflare Access validation failed", error instanceof Error ? error.message : "Unknown error");
+    return jsonResponse({ error: "管理者認証を確認できませんでした。", code: "ACCESS_VALIDATION_FAILED" }, 401);
   }
 }
 
