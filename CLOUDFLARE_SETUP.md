@@ -14,8 +14,19 @@
 
 3. Cloudflare Workers & PagesでPagesプロジェクトを作り、このリポジトリを接続します。
 4. ビルドコマンドは `npm run build`、出力先は `dist`、Productionブランチは `main` にします。
+5. PagesのGit連携がビルド後のアップロードまで自動で行うため、Deploy commandは設定しません。
 
 管理画面が作成したコミットによって、新しいProductionビルドが自動で始まります。
+
+### `wrangler deploy`で失敗する場合
+
+ログに `Executing user deploy command: npx wrangler deploy` と表示される場合は、
+PagesではなくWorkersのGitビルドとして作成されているか、不要なDeploy commandが
+設定されています。CloudflareでPagesプロジェクトとして作成し直し、上記の
+Build commandと出力先だけを設定してください。
+
+Direct Upload方式を意図的に選ぶ場合だけ、Workers用の `wrangler deploy` ではなく
+`npx wrangler pages deploy dist --project-name new-portfolio --branch main` を使用します。
 
 ## 2. Cloudflare Access
 
