@@ -83,10 +83,12 @@ export class PortfolioApp {
       <div class="board-noise" data-board-noise aria-hidden="true"></div>
       <nav class="board-nav" aria-label="セクションナビゲーション">
         <span class="board-nav__logo">${personaName}</span>
-        ${PortfolioApp.NAV_ITEMS.map(
-          (item) =>
-            `<a href="#${item.id}" class="nav-tab" data-nav-tab="${item.id}" style="--tab-accent: var(--accent-${item.accent})">${item.label}</a>`,
-        ).join("")}
+        <div class="board-nav__items">
+          ${PortfolioApp.NAV_ITEMS.map(
+            (item) =>
+              `<a href="#${item.id}" class="nav-tab" data-nav-tab="${item.id}" style="--tab-accent: var(--accent-${item.accent})">${item.label}</a>`,
+          ).join("")}
+        </div>
       </nav>
       <main>
         <svg class="portfolio-thread" data-portfolio-thread aria-hidden="true"></svg>
