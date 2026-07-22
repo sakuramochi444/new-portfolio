@@ -2,6 +2,12 @@
   "name": "mochi-portfolio",
   "pages_build_output_dir": "./dist",
   "compatibility_date": "2026-07-21",
+  "kv_namespaces": [
+    {
+      "binding": "CONTACT_RATE_LIMIT",
+      "id": "32c35773a3b54442880c84bdac566922"
+    }
+  ],
   "vars": {
     "GITHUB_OWNER": "sakuramochi444",
     "GITHUB_REPO": "new-portfolio",

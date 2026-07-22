@@ -643,9 +643,19 @@
   outline: 2px solid var(--accent-yellow);
 }
 
+.contact__hint {
+  color: var(--chalk-faint);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
 .contact__submit {
   align-self: flex-start;
   margin-top: 0.5rem;
+}
+
+.contact__turnstile {
+  min-height: 1px;
 }
 
 .contact__plane {
