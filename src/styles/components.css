@@ -101,24 +101,6 @@
   transform: translateX(3px) rotate(-0.5deg);
 }
 
-/* code snippet receipt */
-.code-receipt {
-  background: #14181f;
-  border: 1px solid var(--panel-border);
-  border-radius: 3px;
-  padding: 1rem 1.1rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  line-height: 1.65;
-  color: #cfe8ff;
-  overflow-x: auto;
-  white-space: pre;
-  clip-path: polygon(
-    0% 2%, 4% 0%, 10% 2%, 16% 0%, 24% 2%, 32% 0%, 40% 2%, 48% 0%, 56% 2%, 64% 0%, 72% 2%, 80% 0%, 88% 2%, 96% 0%, 100% 2%,
-    100% 98%, 96% 100%, 88% 98%, 80% 100%, 72% 98%, 64% 100%, 56% 98%, 48% 100%, 40% 98%, 32% 100%, 24% 98%, 16% 100%, 10% 98%, 4% 100%, 0% 98%
-  );
-}
-
 /* social icons row */
 .social-row {
   display: flex;
@@ -152,9 +134,4 @@
     cursor: default;
   }
 
-  .code-receipt {
-    max-width: 100%;
-    padding: 0.9rem;
-    font-size: 0.7rem;
-  }
 }

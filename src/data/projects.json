@@ -10,7 +10,6 @@
     "skillIds": ["html", "css", "javascript", "nodejs"],
     "links": [{ "label": "GitHub", "url": "https://github.com/misorange/Organisator.git" }],
     "accent": "cyan",
-    "codeSnippet": "function renderPost(post) {\n  const el = document.createElement(\"li\");\n  el.textContent = `${post.author}: ${post.question}`;\n  boardList.appendChild(el);\n}",
     "images": ["/images/works/student-support-tool.png"]
   },
   {
@@ -24,7 +23,6 @@
     "skillIds": ["python", "unity", "csharp"],
     "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/BlackWhitePazzle" }],
     "accent": "magenta",
-    "codeSnippet": "void ToggleTile(int x, int y) {\n  var tile = grid[x, y];\n  tile.IsBlack = !tile.IsBlack;\n  CheckClearCondition();\n}",
     "images": [
       "/images/works/black-white-puzzle-1.png",
       "/images/works/black-white-puzzle-2.png",
@@ -43,7 +41,6 @@
     "skillIds": ["unity", "csharp", "python"],
     "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/2025s_kosensai.git" }],
     "accent": "yellow",
-    "codeSnippet": "void OnAccelerationChanged(Vector3 accel) {\n  var tilt = Mathf.Clamp(accel.x, -1f, 1f);\n  player.Move(tilt * moveSpeed);\n}",
     "images": ["/images/works/motion-dungeon-rpg.png"]
   },
   {
@@ -60,7 +57,6 @@
       { "label": "Live Demo", "url": "https://next-app-tau-beige.vercel.app" }
     ],
     "accent": "cyan",
-    "codeSnippet": "const items = await prisma.item.findMany({\n  where: { teamId },\n  orderBy: { updatedAt: \"desc\" },\n});",
     "images": [
       "/images/works/inventory-tool-1.png",
       "/images/works/inventory-tool-2.png",
@@ -80,7 +76,6 @@
     "skillIds": ["astro", "typescript", "css"],
     "links": [],
     "accent": "magenta",
-    "codeSnippet": "const quiz = await import(`../data/quizzes/${slug}.json`);\nrenderQuiz(quiz.questions);",
     "images": []
   },
   {
@@ -97,7 +92,6 @@
       { "label": "Live Demo", "url": "https://mochi-portfolio.pages.dev" }
     ],
     "accent": "yellow",
-    "codeSnippet": "const data = PortfolioRepository.load();\nconst app = new PortfolioApp(\"#app\");\napp.bootstrap();",
     "images": []
   }
 ]

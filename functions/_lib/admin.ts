@@ -178,7 +178,7 @@ export function validateContent(file: ContentFile, value: unknown): string[] {
       }
       if (![1, 2, 3, 4, 5].includes(Number(item.level))) errors.push(`${index + 1}件目の習熟度は1〜5で指定してください。`);
     } else if (file === "projects") {
-      if (!hasStrings(item, ["id", "title", "period", "summary", "description", "role", "accent", "codeSnippet"])) {
+      if (!hasStrings(item, ["id", "title", "period", "summary", "description", "role", "accent"])) {
         errors.push(`${index + 1}件目の作品に必須項目が不足しています。`);
       }
       if (!isStringArray(item.tags) || !isStringArray(item.skillIds) || !isStringArray(item.images) || !Array.isArray(item.links)) {

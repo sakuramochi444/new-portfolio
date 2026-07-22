@@ -143,7 +143,6 @@ export class ProjectsSection extends Section<Project[]> {
       <div class="project-card__tags">
         ${project.tags.map((tag) => `<span class="tag-pill">${tag}</span>`).join("")}
       </div>
-      <pre class="code-receipt"><code>${this.escapeHtml(project.codeSnippet)}</code></pre>
       <div class="project-detail__links">
         ${project.links
           .map(
@@ -153,12 +152,6 @@ export class ProjectsSection extends Section<Project[]> {
           .join("")}
       </div>
     `;
-  }
-
-  private escapeHtml(value: string): string {
-    const div = document.createElement("div");
-    div.textContent = value;
-    return div.innerHTML;
   }
 
   private findSharedConnections(): [Project, Project][] {

@@ -37,7 +37,6 @@ export interface Project {
   skillIds: string[];
   links: { label: string; url: string }[];
   accent: AccentColor;
-  codeSnippet: string;
   images: string[];
 }
 
