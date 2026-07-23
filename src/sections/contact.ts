@@ -49,7 +49,7 @@ export class ContactSection extends Section<Profile> {
       <section id="contact" class="section contact" data-accent="yellow" data-section-label="Contact">
         <div class="section-inner contact__inner">
           <p class="section-tag" style="--section-accent: var(--accent-yellow)">// fetch(&quot;/api/contact&quot;)</p>
-          <h2 class="section-heading"><span class="stroke-underline">おてがみください<svg></svg></span></h2>
+          <h2 class="section-heading"><span class="stroke-underline">連絡<svg></svg></span></h2>
           <p class="contact__lead">お仕事のご相談、雑談、なんでもお気軽にどうぞ。</p>
           <div class="contact__grid">
             <form class="contact__form" data-contact-form aria-label="${profile.email}宛のお問い合わせフォーム" novalidate>
