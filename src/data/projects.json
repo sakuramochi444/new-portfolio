@@ -124,7 +124,10 @@
     "role": "個人開発（企画・デザイン・フロントエンド・API・運用設計）",
     "tags": ["React", "TypeScript", "Vite", "Cloudflare D1"],
     "skillIds": ["react", "typescript", "github"],
-    "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/FocusFlow.git" }],
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/sakuramochi444/FocusFlow.git" },
+      { "label": "Live Demo", "url": "https://focusflow.0404taichi8.workers.dev" }
+    ],
     "accent": "magenta",
     "images": [
       "/images/works/focusflow-1.png",
