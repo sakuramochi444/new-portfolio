@@ -101,7 +101,7 @@
     "summary": "今日やることと、いつか叶えたいことを無理なく整理できるタスク管理Webアプリ",
     "description": "日々のタスクや期限、プロジェクトと「いつかやりたいこと」を一か所で管理できる、個人向けのタスク管理Webアプリです。思いついた瞬間に記録できるクイック追加と、期限・優先度・繰り返し・サブタスクなどの整理機能を両立し、必要な情報を段階的に見せるUIを設計しました。スマートフォンでの片手操作を重視したレスポンシブUIとPWAに対応。ReactとTypeScriptによるフロントエンド、Hono API、Cloudflare D1を一つのCloudflare Workerで構成し、GitHub Actionsからマイグレーションとデプロイを自動化しています。",
     "role": "個人開発（企画・デザイン・フロントエンド・API・運用設計）",
-    "tags": ["React", "TypeScript", "Hono", "Cloudflare D1"],
+    "tags": ["React", "TypeScript", "Vite", "Cloudflare D1"],
     "skillIds": ["react", "typescript", "github"],
     "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/MyManager.git" }],
     "accent": "cyan",
@@ -110,6 +110,24 @@
       "/images/works/mymanager-2.png",
       "/images/works/mymanager-3.png",
       "/images/works/mymanager-4.png"
+    ]
+  },
+  {
+    "id": "focusflow",
+    "title": "FocusFlow",
+    "period": "2026.07 - 継続中",
+    "summary": "集中力を高めるためのタスク管理Webアプリ",
+    "description": "FocusFlowは、作業を「始める」「続ける」「休む」「振り返る」「会議へ切り替える」までを一つの流れとして扱うプロダクトです。単なるポモドーロタイマーではなく、タスク、集中セッション、休憩リマインダー、通知の一時保留、会議前チェック、実績グラフをまとめることで、作業中にアプリを行き来する負担を減らすことを目指しました。PCでは広いダッシュボードとして、iPhoneではPWAとしてホーム画面から使えるように設計しています。",
+    "role": "個人開発（企画・デザイン・フロントエンド・API・運用設計）",
+    "tags": ["React", "TypeScript", "Vite", "Cloudflare D1"],
+    "skillIds": ["react", "typescript", "github"],
+    "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/FocusFlow.git" }],
+    "accent": "magenta",
+    "images": [
+      "/images/works/focusflow-1.png",
+      "/images/works/focusflow-2.png",
+      "/images/works/focusflow-3.png",
+      "/images/works/focusflow-4.png"
     ]
   }
 ]
