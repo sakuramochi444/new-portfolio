@@ -92,7 +92,10 @@
       { "label": "Live Demo", "url": "https://mochi-portfolio.pages.dev" }
     ],
     "accent": "yellow",
-    "images": []
+    "images": [
+      "/images/works/mochi-portfolio-1.png",
+      "/images/works/mochi-portfolio-2.png"
+    ]
   },
   {
     "id": "mymanager",
