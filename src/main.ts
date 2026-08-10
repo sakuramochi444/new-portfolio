@@ -47,6 +47,7 @@ export class PortfolioApp {
   private experience: ExperienceSection | null = null;
   private qualifications: QualificationsSection | null = null;
   private contact: ContactSection | null = null;
+  private readonly navAbortController = new AbortController();
 
   constructor(rootSelector: string) {
     const root = document.querySelector<HTMLElement>(rootSelector);
@@ -63,6 +64,7 @@ export class PortfolioApp {
     this.cursor = new CustomCursor();
     this.mountSections(data);
     this.initPortfolioThread();
+    this.initNavNavigation();
     this.initNavActiveState();
   }
 
@@ -117,6 +119,39 @@ export class PortfolioApp {
     const main = this.root.querySelector<HTMLElement>("main");
     const svg = this.root.querySelector<SVGSVGElement>("[data-portfolio-thread]");
     if (main && svg) this.portfolioThread = new PortfolioThread(main, svg);
+  }
+
+  /**
+   * Handles section navigation without relying on the browser's native hash
+   * scrolling. In mobile browsers the navigation itself is a fixed, scrollable
+   * element, and native fragment navigation can incorrectly restore the page to
+   * the first section when that element is tapped.
+   */
+  private initNavNavigation(): void {
+    this.root.querySelectorAll<HTMLAnchorElement>("[data-nav-tab]").forEach((tab) => {
+      tab.addEventListener(
+        "click",
+        (event) => {
+          if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+          const id = tab.dataset.navTab;
+          const target = id ? document.getElementById(id) : null;
+          if (!id || !target) return;
+
+          event.preventDefault();
+
+          const top = target.getBoundingClientRect().top + window.scrollY;
+          const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+          window.scrollTo({ top: Math.max(0, top), behavior });
+
+          const nextHash = `#${id}`;
+          if (window.location.hash !== nextHash) {
+            window.history.pushState(null, "", nextHash);
+          }
+        },
+        { signal: this.navAbortController.signal },
+      );
+    });
   }
 
   private mountSections(data: PortfolioData): void {
@@ -191,6 +226,7 @@ export class PortfolioApp {
   }
 
   public dispose(): void {
+    this.navAbortController.abort();
     this.cursor?.dispose();
     this.portfolioThread?.dispose();
     this.hero?.dispose();
