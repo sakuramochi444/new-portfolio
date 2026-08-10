@@ -1,6 +1,3 @@
-import { gsap, MotionPreferences, ScrollTrigger } from "../core/motion";
-import { RoughTheme } from "../core/rough";
-
 interface ThreadPoint {
   x: number;
   y: number;
@@ -8,17 +5,20 @@ interface ThreadPoint {
 
 /** Draws one continuous thread behind every portfolio section. */
 export class PortfolioThread {
+  private static readonly X_RATIOS = [0.14, 0.79, 0.22, 0.9, 0.17, 0.76, 0.11];
+  private static readonly MOBILE_X_RATIOS = [0.06, 0.93, 0.12, 0.95, 0.07, 0.91, 0.14];
+  private static readonly Y_RATIOS = [0.43, 0.57, 0.36, 0.5, 0.64, 0.4, 0.55];
   private readonly main: HTMLElement;
   private readonly svg: SVGSVGElement;
   private readonly resizeObserver: ResizeObserver;
   private resizeTimer = 0;
+  private lastLayoutSignature = "";
 
   constructor(main: HTMLElement, svg: SVGSVGElement) {
     this.main = main;
     this.svg = svg;
     this.resizeObserver = new ResizeObserver(this.scheduleDraw);
     this.resizeObserver.observe(main);
-    main.querySelectorAll<HTMLElement>(".section").forEach((section) => this.resizeObserver.observe(section));
     window.addEventListener("resize", this.scheduleDraw);
     window.addEventListener("load", this.scheduleDraw, { once: true });
     requestAnimationFrame(this.draw);
@@ -30,16 +30,33 @@ export class PortfolioThread {
   };
 
   private buildPath(points: ThreadPoint[]): string {
-    if (points.length === 0) return "";
+    if (points.length < 2) return "";
 
     let d = `M${points[0].x},${points[0].y}`;
-    for (let i = 1; i < points.length; i++) {
-      const previous = points[i - 1];
-      const current = points[i];
-      const handle = Math.min(Math.abs(current.y - previous.y) * 0.42, 280);
-      d += ` C${previous.x},${previous.y + handle} ${current.x},${current.y - handle} ${current.x},${current.y}`;
+    for (let index = 0; index < points.length - 1; index++) {
+      const before = points[Math.max(0, index - 1)];
+      const start = points[index];
+      const end = points[index + 1];
+      const after = points[Math.min(points.length - 1, index + 2)];
+      const tension = 0.16;
+      const controlA = {
+        x: start.x + (end.x - before.x) * tension,
+        y: start.y + (end.y - before.y) * tension,
+      };
+      const controlB = {
+        x: end.x - (after.x - start.x) * tension,
+        y: end.y - (after.y - start.y) * tension,
+      };
+      d += ` C${controlA.x},${controlA.y} ${controlB.x},${controlB.y} ${end.x},${end.y}`;
     }
     return d;
+  }
+
+  private createPath(d: string, className: string): SVGPathElement {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", d);
+    path.setAttribute("class", className);
+    return path;
   }
 
   private readonly draw = (): void => {
@@ -49,18 +66,27 @@ export class PortfolioThread {
     if (width <= 0 || height <= 0) return;
 
     const isMobile = window.matchMedia("(max-width: 760px)").matches;
-    const edgeInset = isMobile ? 10 : Math.max(30, width * 0.055);
     const sections = Array.from(this.main.querySelectorAll<HTMLElement>(".section"));
     const points: ThreadPoint[] = [{ x: width / 2, y: 0 }];
 
     sections.forEach((section, index) => {
       const rect = section.getBoundingClientRect();
+      const xRatios = isMobile ? PortfolioThread.MOBILE_X_RATIOS : PortfolioThread.X_RATIOS;
       points.push({
-        x: index % 2 === 0 ? edgeInset : width - edgeInset,
-        y: rect.top - mainRect.top + rect.height * 0.5,
+        x: width * xRatios[index % xRatios.length],
+        y:
+          rect.top -
+          mainRect.top +
+          rect.height * PortfolioThread.Y_RATIOS[index % PortfolioThread.Y_RATIOS.length],
       });
     });
     points.push({ x: width / 2, y: height });
+
+    const layoutSignature = `${Math.round(width)}:${Math.round(height)}:${points
+      .map((point) => `${Math.round(point.x)},${Math.round(point.y)}`)
+      .join(";")}`;
+    if (layoutSignature === this.lastLayoutSignature) return;
+    this.lastLayoutSignature = layoutSignature;
 
     this.svg.innerHTML = "";
     this.svg.setAttribute("width", `${width}`);
@@ -69,48 +95,10 @@ export class PortfolioThread {
     this.svg.setAttribute("preserveAspectRatio", "none");
 
     const d = this.buildPath(points);
-    const roughSvg = RoughTheme.createSvg(this.svg);
-    const shadow = roughSvg.path(
-      d,
-      RoughTheme.options({ stroke: "#4e2029", strokeWidth: 5.5, roughness: 1.2, bowing: 0.45 }),
-    );
-    const thread = roughSvg.path(
-      d,
-      RoughTheme.options({ stroke: "#ff5252", strokeWidth: 2.8, roughness: 1.45, bowing: 0.65 }),
-    );
-    const fiber = roughSvg.path(
-      d,
-      RoughTheme.options({ stroke: "#ffb0b0", strokeWidth: 0.8, roughness: 1.7, bowing: 0.8 }),
-    );
-    fiber.setAttribute("transform", "translate(1 0)");
+    const shadow = this.createPath(d, "portfolio-thread__shadow");
+    const thread = this.createPath(d, "portfolio-thread__strand");
+    const fiber = this.createPath(d, "portfolio-thread__fiber");
     this.svg.append(shadow, thread, fiber);
-
-    const paths = Array.from(this.svg.querySelectorAll<SVGPathElement>("path"));
-    paths.forEach((path) => {
-      path.style.strokeLinecap = "round";
-    });
-
-    ScrollTrigger.getById("portfolio-thread")?.kill();
-    if (MotionPreferences.reduced) return;
-
-    paths.forEach((path) => {
-      const length = path.getTotalLength();
-      path.style.strokeDasharray = `${length}`;
-      path.style.strokeDashoffset = `${length}`;
-    });
-
-    gsap.to(paths, {
-      strokeDashoffset: 0,
-      ease: "none",
-      scrollTrigger: {
-        id: "portfolio-thread",
-        trigger: this.main,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-      },
-    });
-    ScrollTrigger.refresh();
   };
 
   public dispose(): void {
@@ -118,6 +106,5 @@ export class PortfolioThread {
     window.removeEventListener("resize", this.scheduleDraw);
     window.removeEventListener("load", this.scheduleDraw);
     this.resizeObserver.disconnect();
-    ScrollTrigger.getById("portfolio-thread")?.kill();
   }
 }

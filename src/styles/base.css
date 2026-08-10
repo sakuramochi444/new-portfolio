@@ -97,6 +97,31 @@ main {
   overflow: hidden;
 }
 
+.portfolio-thread path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.portfolio-thread__shadow {
+  stroke: #4e2029;
+  stroke-width: 6;
+  opacity: 0.72;
+}
+
+.portfolio-thread__strand {
+  stroke: var(--thread-red);
+  stroke-width: 3;
+}
+
+.portfolio-thread__fiber {
+  stroke: #ffb0b0;
+  stroke-width: 0.75;
+  opacity: 0.72;
+  transform: translate(0.8px, -0.35px);
+}
+
 .section {
   position: relative;
   padding: clamp(4rem, 10vh, 7rem) var(--section-pad-x);
@@ -119,8 +144,25 @@ main {
 }
 
 @media (max-width: 760px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .board-noise {
+    opacity: 0.16;
+    mix-blend-mode: normal;
+  }
+
   .portfolio-thread {
-    opacity: 0.42;
+    opacity: 0.48;
+  }
+
+  .pin-card,
+  .tag-pill,
+  .nav-tab,
+  .section-heading,
+  .btn-scrawl {
+    filter: none;
   }
 }
 

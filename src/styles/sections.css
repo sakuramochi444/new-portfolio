@@ -360,6 +360,22 @@
   z-index: 1;
 }
 
+.projects__threads path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.projects__thread-shadow {
+  stroke: rgba(78, 32, 41, 0.72);
+  stroke-width: 4px;
+}
+
+.projects__thread-line {
+  stroke: var(--thread-red);
+  stroke-width: 1.8px;
+}
+
 .projects__grid {
   position: relative;
   z-index: 2;

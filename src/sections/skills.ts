@@ -76,6 +76,10 @@ export class SkillsSection extends Section<SkillsSectionProps> {
     const section = this.query<HTMLElement>("#skills");
     if (!svg || !noteEl || !board || !section) return;
 
+    // The graph is replaced by the compact list on phones, so avoid building
+    // its many rough.js SVG nodes when they would remain hidden.
+    if (window.matchMedia("(max-width: 760px)").matches) return;
+
     this.drawGraph(svg, categories);
     this.wireInteractions(svg, noteEl, board, categories);
     this.animateEntrance(svg, section);

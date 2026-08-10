@@ -1,5 +1,4 @@
 import type { Project } from "../types";
-import { RoughTheme } from "../core/rough";
 import { gsap, MotionPreferences } from "../core/motion";
 import { RevealAnimator } from "../core/reveal";
 import { Section } from "./section";
@@ -40,7 +39,8 @@ export class ProjectsSection extends Section<Project[]> {
 
     const board = this.query<HTMLElement>("[data-projects-board]");
     const threadSvg = this.query<SVGSVGElement>(".projects__threads");
-    if (board && threadSvg) {
+    const showConnections = !window.matchMedia("(max-width: 760px)").matches;
+    if (board && threadSvg && showConnections) {
       requestAnimationFrame(() => this.drawThreads(board, threadSvg));
       window.addEventListener("resize", this.handleResize);
     }
@@ -98,7 +98,7 @@ export class ProjectsSection extends Section<Project[]> {
         ${
           photo
             ? `<div class="project-card__photo" style="--photo-tilt:${(-tilt * 0.6).toFixed(2)}deg">
-                <img src="${photo}" alt="${project.title}のスクリーンショット" loading="lazy" />
+                <img src="${photo}" alt="${project.title}のスクリーンショット" loading="lazy" decoding="async" />
               </div>`
             : ""
         }
@@ -127,7 +127,7 @@ export class ProjectsSection extends Section<Project[]> {
         ${project.images
           .map(
             (src, index) =>
-              `<img class="project-detail__photo" src="${src}" alt="${project.title}のスクリーンショット${index + 1}" loading="lazy" />`,
+              `<img class="project-detail__photo" src="${src}" alt="${project.title}のスクリーンショット${index + 1}" loading="lazy" decoding="async" />`,
           )
           .join("")}
       </div>
@@ -155,14 +155,32 @@ export class ProjectsSection extends Section<Project[]> {
   }
 
   private findSharedConnections(): [Project, Project][] {
-    const pairs: [Project, Project][] = [];
+    const candidates: Array<{ a: Project; b: Project; sharedCount: number; distance: number }> = [];
     for (let i = 0; i < this.projects.length; i++) {
       for (let j = i + 1; j < this.projects.length; j++) {
-        const shared = this.projects[i].skillIds.some((id) => this.projects[j].skillIds.includes(id));
-        if (shared) pairs.push([this.projects[i], this.projects[j]]);
+        const sharedCount = this.projects[i].skillIds.filter((id) => this.projects[j].skillIds.includes(id)).length;
+        if (sharedCount > 0) candidates.push({ a: this.projects[i], b: this.projects[j], sharedCount, distance: j - i });
       }
     }
-    return pairs;
+
+    candidates.sort((left, right) => right.sharedCount - left.sharedCount || left.distance - right.distance);
+
+    const parent = new Map(this.projects.map((project) => [project.id, project.id]));
+    const findRoot = (id: string): string => {
+      let root = id;
+      while (parent.get(root) !== root) root = parent.get(root) ?? root;
+      return root;
+    };
+
+    const connections: [Project, Project][] = [];
+    candidates.forEach(({ a, b }) => {
+      const rootA = findRoot(a.id);
+      const rootB = findRoot(b.id);
+      if (rootA === rootB) return;
+      parent.set(rootB, rootA);
+      connections.push([a, b]);
+    });
+    return connections;
   }
 
   private drawThreads(board: HTMLElement, threadSvg: SVGSVGElement): void {
@@ -172,7 +190,6 @@ export class ProjectsSection extends Section<Project[]> {
     threadSvg.setAttribute("height", `${boardRect.height}`);
     threadSvg.setAttribute("viewBox", `0 0 ${boardRect.width} ${boardRect.height}`);
 
-    const roughSvg = RoughTheme.createSvg(threadSvg);
     const pins = new Map<string, { x: number; y: number }>();
     this.projects.forEach((project) => {
       const card = board.querySelector<HTMLElement>(`[data-project-id="${project.id}"]`);
@@ -192,9 +209,10 @@ export class ProjectsSection extends Section<Project[]> {
       const shapeKey = `${a.id}:${b.id}`;
       let shape = this.threadShapes.get(shapeKey);
       if (!shape) {
+        const seed = Array.from(shapeKey).reduce((sum, character) => sum + character.charCodeAt(0), 0);
         shape = {
-          sagMultiplier: 0.65 + Math.random() * 0.9,
-          bend: Math.random() * 0.24 - 0.12,
+          sagMultiplier: 0.72 + (seed % 7) * 0.075,
+          bend: ((seed % 9) - 4) * 0.018,
         };
         this.threadShapes.set(shapeKey, shape);
       }
@@ -204,8 +222,13 @@ export class ProjectsSection extends Section<Project[]> {
       const baseSag = Math.min(70, horizontalDistance * 0.18) + 24;
       const sag = baseSag * shape.sagMultiplier;
       const d = `M${pinA.x},${pinA.y} Q${midX},${Math.max(pinA.y, pinB.y) + sag} ${pinB.x},${pinB.y}`;
-      const thread = roughSvg.path(d, RoughTheme.options({ stroke: "#ff5252", strokeWidth: 2, roughness: 1.6, bowing: 0.6 }));
-      threadSvg.appendChild(thread);
+      const shadow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      const thread = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      shadow.setAttribute("d", d);
+      shadow.setAttribute("class", "projects__thread-shadow");
+      thread.setAttribute("d", d);
+      thread.setAttribute("class", "projects__thread-line");
+      threadSvg.append(shadow, thread);
     });
   }
 
