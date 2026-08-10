@@ -145,7 +145,7 @@
     "role": "個人開発（企画・デザイン・フロントエンド・API・認証・データベース・運用設計）",
     "tags": ["Next.js 16", "React 19", "TypeScript", "Cloudflare D1", "Drizzle ORM", "PWA"],
     "skillIds": ["nextjs", "react", "typescript", "tailwindcss"],
-    "links": [],
+    "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/LifeLedger.git" }],
     "accent": "yellow",
     "images": [
       "/images/works/lifeledger-1.png",
