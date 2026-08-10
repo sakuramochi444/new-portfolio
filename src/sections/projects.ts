@@ -1,5 +1,5 @@
 import type { Project } from "../types";
-import { gsap, MotionPreferences } from "../core/motion";
+import { gsap, MotionPreferences, ScrollTrigger } from "../core/motion";
 import { RevealAnimator } from "../core/reveal";
 import { Section } from "./section";
 
@@ -8,6 +8,8 @@ export class ProjectsSection extends Section<Project[]> {
 
   private projects: Project[] = [];
   private threadShapes = new Map<string, { sagMultiplier: number; bend: number }>();
+  private readonly revealedProjectIds = new Set<string>();
+  private readonly threadRevealTriggers: Array<ReturnType<typeof ScrollTrigger.create>> = [];
   private resizeTimer = 0;
 
   public mount(projects: Project[]): void {
@@ -56,11 +58,65 @@ export class ProjectsSection extends Section<Project[]> {
     window.addEventListener("keydown", this.handleKeydown);
 
     RevealAnimator.reveal(this.queryAll(".project-card"), { stagger: 0.1 });
+    if (threadSvg && showConnections) this.initThreadReveal(threadSvg);
   }
 
   public dispose(): void {
+    this.threadRevealTriggers.forEach((trigger) => trigger.kill());
+    this.threadRevealTriggers.length = 0;
+    const threadSvg = this.query<SVGSVGElement>(".projects__threads");
+    if (threadSvg) gsap.killTweensOf(threadSvg.querySelectorAll("path"));
     window.removeEventListener("resize", this.handleResize);
     window.removeEventListener("keydown", this.handleKeydown);
+  }
+
+  private initThreadReveal(threadSvg: SVGSVGElement): void {
+    this.queryAll<HTMLElement>(".project-card").forEach((card) => {
+      const projectId = card.dataset.projectId;
+      if (!projectId) return;
+
+      const reveal = (): void => {
+        this.revealedProjectIds.add(projectId);
+        this.revealEligibleThreads(threadSvg, MotionPreferences.reduced ? 0 : 0.85);
+      };
+
+      if (MotionPreferences.reduced) {
+        reveal();
+        return;
+      }
+
+      this.threadRevealTriggers.push(
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 88%",
+          once: true,
+          onEnter: reveal,
+        }),
+      );
+    });
+  }
+
+  private revealEligibleThreads(threadSvg: SVGSVGElement, delay: number): void {
+    const keys = new Set(
+      Array.from(threadSvg.querySelectorAll<SVGPathElement>("[data-thread-key]"))
+        .filter((path) => {
+          const projectA = path.dataset.projectA;
+          const projectB = path.dataset.projectB;
+          return Boolean(
+            projectA &&
+              projectB &&
+              this.revealedProjectIds.has(projectA) &&
+              this.revealedProjectIds.has(projectB),
+          );
+        })
+        .map((path) => path.dataset.threadKey)
+        .filter((key): key is string => Boolean(key)),
+    );
+
+    keys.forEach((key) => {
+      const paths = threadSvg.querySelectorAll<SVGPathElement>(`[data-thread-key="${key}"]`);
+      gsap.to(paths, { opacity: 1, duration: 0.5, delay, ease: "power2.out", overwrite: "auto" });
+    });
   }
 
   private readonly handleResize = (): void => {
@@ -228,6 +284,13 @@ export class ProjectsSection extends Section<Project[]> {
       shadow.setAttribute("class", "projects__thread-shadow");
       thread.setAttribute("d", d);
       thread.setAttribute("class", "projects__thread-line");
+      [shadow, thread].forEach((path) => {
+        path.dataset.threadKey = shapeKey;
+        path.dataset.projectA = a.id;
+        path.dataset.projectB = b.id;
+        path.style.opacity =
+          this.revealedProjectIds.has(a.id) && this.revealedProjectIds.has(b.id) ? "1" : "0";
+      });
       threadSvg.append(shadow, thread);
     });
   }
