@@ -170,20 +170,20 @@ export function validateContent(file: ContentFile, value: unknown): string[] {
       return;
     }
     if (file === "skills") {
-      if (!hasStrings(item, ["id", "name", "category", "note", "accent"]) || typeof item.level !== "number") {
+      if (!hasStrings(item, ["id", "name", "category", "note", "accent"])) {
         errors.push(`${index + 1}件目のスキルに必須項目が不足しています。`);
       }
-      if (!["language", "framework", "infra", "tool", "other"].includes(String(item.category))) {
+      if (!["primary", "experienced", "learning"].includes(String(item.category))) {
         errors.push(`${index + 1}件目のスキルカテゴリが不正です。`);
       }
-      if (![1, 2, 3, 4, 5].includes(Number(item.level))) errors.push(`${index + 1}件目の習熟度は1〜5で指定してください。`);
     } else if (file === "projects") {
-      if (!hasStrings(item, ["id", "title", "period", "summary", "description", "role", "accent"])) {
+      if (!hasStrings(item, ["id", "title", "period", "summary", "tier", "overview", "problem", "role", "outcome", "accent"])) {
         errors.push(`${index + 1}件目の作品に必須項目が不足しています。`);
       }
-      if (!isStringArray(item.tags) || !isStringArray(item.skillIds) || !isStringArray(item.images) || !Array.isArray(item.links)) {
+      if (!isStringArray(item.implementation) || !isStringArray(item.tags) || !isStringArray(item.skillIds) || !isStringArray(item.images) || !Array.isArray(item.links)) {
         errors.push(`${index + 1}件目の作品の配列項目が不正です。`);
       }
+      if (!["featured", "standard", "past"].includes(String(item.tier))) errors.push(`${index + 1}件目の作品表示区分が不正です。`);
     } else if (file === "experience") {
       if (!hasStrings(item, ["id", "period", "title", "org", "description", "kind"])) {
         errors.push(`${index + 1}件目の経歴に必須項目が不足しています。`);

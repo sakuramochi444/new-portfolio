@@ -6,9 +6,14 @@ export class PhysicsWorld {
   private readonly engine: Matter.Engine;
   private readonly tickCallbacks = new Set<(deltaMs: number) => void>();
   private running = false;
+  private accumulatedDeltaMs = 0;
+  private readonly minimumStepMs = window.matchMedia("(max-width: 760px)").matches ? 1000 / 30 : 1000 / 60;
 
   private readonly tick = (_time: number, deltaMs: number): void => {
-    const step = Math.min(deltaMs, 33.4);
+    this.accumulatedDeltaMs += deltaMs;
+    if (this.accumulatedDeltaMs < this.minimumStepMs) return;
+    const step = Math.min(this.accumulatedDeltaMs, 33.4);
+    this.accumulatedDeltaMs = 0;
     Matter.Engine.update(this.engine, step);
     this.tickCallbacks.forEach((callback) => callback(step));
   };
@@ -41,6 +46,7 @@ export class PhysicsWorld {
   public stop(): void {
     if (!this.running) return;
     this.running = false;
+    this.accumulatedDeltaMs = 0;
     gsap.ticker.remove(this.tick);
   }
 

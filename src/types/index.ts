@@ -20,8 +20,7 @@ export interface Profile {
 export interface Skill {
   id: string;
   name: string;
-  category: "language" | "framework" | "infra" | "tool" | "other";
-  level: 1 | 2 | 3 | 4 | 5;
+  category: "primary" | "experienced" | "learning";
   note: string;
   accent: AccentColor;
 }
@@ -31,8 +30,15 @@ export interface Project {
   title: string;
   period: string;
   summary: string;
-  description: string;
+  tier: "featured" | "standard" | "past";
+  status?: string;
+  overview: string;
+  problem: string;
   role: string;
+  implementation: string[];
+  outcome: string;
+  aiUsage?: string;
+  linkNote?: string;
   tags: string[];
   skillIds: string[];
   links: { label: string; url: string }[];

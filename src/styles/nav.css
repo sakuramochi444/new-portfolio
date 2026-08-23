@@ -55,27 +55,32 @@
   font-family: var(--font-display);
   font-size: 0.85rem;
   text-align: center;
-  transform: rotate(-1.5deg);
+  transform: none;
   transition: transform 0.25s var(--ease-hand), color 0.25s var(--ease-out), border-color 0.25s var(--ease-out),
     background 0.25s var(--ease-out);
-  filter: url(#roughen-edge);
+  filter: none;
 }
 
 .nav-tab:nth-child(even) {
-  transform: rotate(1.5deg);
+  border-radius: 8px 3px 10px 4px;
 }
 
 .nav-tab:hover {
   color: var(--chalk);
-  transform: translateX(6px) rotate(0deg);
+  transform: translateX(6px);
 }
 
 .nav-tab.is-active {
   color: var(--board-bg);
   background: var(--tab-accent, var(--accent-cyan));
   border-color: transparent;
-  transform: translateX(4px) rotate(0deg);
+  transform: translateX(4px);
   box-shadow: 0 0 18px color-mix(in srgb, var(--tab-accent, var(--accent-cyan)) 55%, transparent);
+}
+
+.nav-tab--more,
+.board-nav__more-menu {
+  display: none;
 }
 
 @media (min-width: 761px) and (max-height: 700px) {
@@ -118,7 +123,7 @@
     gap: 0.35rem;
     padding: 0.35rem max(0.5rem, env(safe-area-inset-left));
     padding-bottom: max(0.35rem, env(safe-area-inset-bottom));
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
     scroll-snap-type: x proximity;
@@ -132,5 +137,42 @@
     font-size: 0.72rem;
     transform: none !important;
     scroll-snap-align: center;
+  }
+
+  .nav-tab--secondary {
+    display: none;
+  }
+
+  .nav-tab[data-nav-tab="hero"] { order: 1; }
+  .nav-tab[data-nav-tab="projects"] { order: 2; }
+  .nav-tab[data-nav-tab="about"] { order: 3; }
+  .nav-tab[data-nav-tab="contact"] { order: 4; }
+
+  .nav-tab--more {
+    display: block;
+    order: 5;
+  }
+
+  .board-nav__more-menu {
+    position: fixed;
+    right: 0.75rem;
+    bottom: calc(64px + env(safe-area-inset-bottom) + 0.65rem);
+    display: grid;
+    min-width: 180px;
+    padding: 0.65rem;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    background: var(--board-bg-alt);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42);
+  }
+
+  .board-nav__more-menu[hidden] {
+    display: none;
+  }
+
+  .board-nav__more-menu a {
+    padding: 0.65rem 0.8rem;
+    color: var(--chalk);
+    font-family: var(--font-display);
   }
 }

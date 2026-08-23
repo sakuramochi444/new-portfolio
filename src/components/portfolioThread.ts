@@ -70,6 +70,7 @@ export class PortfolioThread {
     const points: ThreadPoint[] = [{ x: width / 2, y: 0 }];
 
     sections.forEach((section, index) => {
+      if (isMobile && index % 2 === 1) return;
       const rect = section.getBoundingClientRect();
       const xRatios = isMobile ? PortfolioThread.MOBILE_X_RATIOS : PortfolioThread.X_RATIOS;
       points.push({

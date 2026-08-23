@@ -12,7 +12,9 @@
   cursor: grab;
   user-select: none;
   touch-action: none;
-  filter: url(#roughen-edge);
+  border: 1px solid rgba(42, 38, 32, 0.18);
+  filter: none;
+  text-rendering: optimizeLegibility;
 }
 
 .sticky-note:active {
@@ -35,13 +37,23 @@
 /* pinned index card */
 .pin-card {
   position: relative;
-  background: var(--paper-bg);
+  background-color: var(--paper-bg);
+  background-image:
+    radial-gradient(circle at 18% 16%, rgba(91, 75, 53, 0.06) 0 1px, transparent 1.5px),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(78, 63, 45, 0.025) 31px 32px);
   color: var(--paper-ink);
   padding: 1.6rem 1.8rem;
-  border-radius: 2px;
+  border: 1px solid rgba(76, 62, 43, 0.12);
+  border-radius: 3px 9px 4px 11px;
   box-shadow: var(--shadow-soft);
-  transform: rotate(var(--tilt, -0.6deg));
-  filter: url(#roughen-edge);
+  transform: none;
+  filter: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pin-card:nth-child(even) {
+  border-radius: 8px 3px 10px 4px;
 }
 
 .pin-card::after {
@@ -79,26 +91,49 @@
   color: var(--chalk-dim);
   border: 1px dashed var(--chalk-faint);
   border-radius: 999px;
-  filter: url(#roughen-edge);
+  filter: none;
+}
+
+.pin-card .tag-pill {
+  color: #51483e;
+  border-color: rgba(42, 38, 32, 0.38);
 }
 
 /* buttons / links */
 .btn-scrawl {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
   font-family: var(--font-display);
   font-size: 1.05rem;
   color: inherit;
-  border-bottom: 2px solid var(--section-accent, var(--accent-cyan));
-  padding-bottom: 0.15em;
+  border-bottom: 0;
+  padding-bottom: 0.28em;
   transition: transform 0.2s var(--ease-hand), color 0.2s var(--ease-out);
-  filter: url(#roughen-text);
+  filter: none;
+}
+
+.btn-scrawl::after {
+  content: "";
+  position: absolute;
+  right: -0.08em;
+  bottom: 0;
+  left: -0.08em;
+  height: 3px;
+  border-radius: 45% 55% 48% 52%;
+  background: linear-gradient(
+    90deg,
+    var(--section-accent, var(--accent-cyan)) 0 46%,
+    color-mix(in srgb, var(--section-accent, var(--accent-cyan)) 55%, transparent) 49% 52%,
+    var(--section-accent, var(--accent-cyan)) 55% 100%
+  );
+  transform: rotate(-0.7deg) scaleY(0.82);
 }
 
 .btn-scrawl:hover {
   color: var(--section-accent, var(--accent-cyan));
-  transform: translateX(3px) rotate(-0.5deg);
+  transform: translateX(3px);
 }
 
 /* social icons row */
@@ -124,7 +159,7 @@
 @media (max-width: 760px) {
   .pin-card {
     padding: 1.35rem 1.15rem;
-    transform: rotate(calc(var(--tilt, -0.6deg) * 0.45));
+    transform: none;
   }
 
   .sticky-note {

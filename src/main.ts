@@ -88,8 +88,14 @@ export class PortfolioApp {
         <div class="board-nav__items">
           ${PortfolioApp.NAV_ITEMS.map(
             (item) =>
-              `<a href="#${item.id}" class="nav-tab" data-nav-tab="${item.id}" style="--tab-accent: var(--accent-${item.accent})">${item.label}</a>`,
+              `<a href="#${item.id}" class="nav-tab ${["hero", "projects", "about", "contact"].includes(item.id) ? "nav-tab--primary" : "nav-tab--secondary"}" data-nav-tab="${item.id}" style="--tab-accent: var(--accent-${item.accent})">${item.label}</a>`,
           ).join("")}
+          <button type="button" class="nav-tab nav-tab--more" data-nav-more aria-expanded="false" aria-controls="mobile-more-menu">その他</button>
+          <div class="board-nav__more-menu" id="mobile-more-menu" data-nav-more-menu hidden>
+            ${PortfolioApp.NAV_ITEMS.filter((item) => !["hero", "projects", "about", "contact"].includes(item.id))
+              .map((item) => `<a href="#${item.id}" data-nav-target="${item.id}">${item.label}</a>`)
+              .join("")}
+          </div>
         </div>
       </nav>
       <main>
@@ -128,13 +134,13 @@ export class PortfolioApp {
    * the first section when that element is tapped.
    */
   private initNavNavigation(): void {
-    this.root.querySelectorAll<HTMLAnchorElement>("[data-nav-tab]").forEach((tab) => {
+    this.root.querySelectorAll<HTMLAnchorElement>("[data-nav-tab], [data-nav-target]").forEach((tab) => {
       tab.addEventListener(
         "click",
         (event) => {
           if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
-          const id = tab.dataset.navTab;
+          const id = tab.dataset.navTab ?? tab.dataset.navTarget;
           const target = id ? document.getElementById(id) : null;
           if (!id || !target) return;
 
@@ -148,10 +154,32 @@ export class PortfolioApp {
           if (window.location.hash !== nextHash) {
             window.history.pushState(null, "", nextHash);
           }
+          this.closeMobileMenu();
         },
         { signal: this.navAbortController.signal },
       );
     });
+
+    const moreButton = this.root.querySelector<HTMLButtonElement>("[data-nav-more]");
+    const moreMenu = this.root.querySelector<HTMLElement>("[data-nav-more-menu]");
+    moreButton?.addEventListener(
+      "click",
+      () => {
+        if (!moreMenu) return;
+        const willOpen = moreMenu.hidden;
+        moreMenu.hidden = !willOpen;
+        moreButton.setAttribute("aria-expanded", String(willOpen));
+      },
+      { signal: this.navAbortController.signal },
+    );
+  }
+
+  private closeMobileMenu(): void {
+    const moreButton = this.root.querySelector<HTMLButtonElement>("[data-nav-more]");
+    const moreMenu = this.root.querySelector<HTMLElement>("[data-nav-more-menu]");
+    if (!moreButton || !moreMenu) return;
+    moreMenu.hidden = true;
+    moreButton.setAttribute("aria-expanded", "false");
   }
 
   private mountSections(data: PortfolioData): void {

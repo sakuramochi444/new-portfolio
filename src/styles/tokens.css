@@ -20,14 +20,14 @@
 
   /* type colors */
   --chalk: #eef1f6;
-  --chalk-dim: #9aa4b4;
-  --chalk-faint: #5b6472;
+  --chalk-dim: #b9c1cd;
+  --chalk-faint: #8792a2;
 
   /* accents */
   --accent-cyan: #59f2c8;
   --accent-magenta: #ff6fb0;
   --accent-yellow: #ffd94a;
-  --thread-red: #ff5252;
+  --thread-red: #c85b5b;
   --rope-tan: #c9a66b;
   --pin-metal: #cfd4dc;
 
@@ -117,6 +117,16 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--accent-yellow);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+body.has-open-modal {
+  overflow: hidden;
 }
 
 svg text {

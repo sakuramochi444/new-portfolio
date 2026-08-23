@@ -11,7 +11,7 @@
 主な見どころは次のとおりです。
 
 - WorksとSkillsを結ぶ、長さやたわみに揺らぎを持たせた糸の表現
-- 多数のSkillsを見やすく切り替える、回転を意識したインタラクション
+- 主力・制作経験・学習中を一度に確認できる、黒板上の技術ノート表現
 - 画面幅や項目数が変わっても破綻しにくいレスポンシブレイアウト
 - `prefers-reduced-motion`を考慮したアニメーション
 - JSONを更新して公開内容を管理できる、認証付きの編集画面
@@ -51,6 +51,16 @@ npm run dev
 
 ```bash
 npm run build
+```
+
+## 作品画像を追加する
+
+元のPNGを`public/images/works`へ追加し、`src/data/projects.json`にはPNGのパスを指定します。`npm run dev`と`npm run build`の開始時に、更新が必要な画像だけから`-480.webp`と`-960.webp`が自動生成されます。
+
+画像変換だけを実行する場合は次のコマンドを使用します。
+
+```bash
+npm run optimize:images
 ```
 
 ## 主なディレクトリ
