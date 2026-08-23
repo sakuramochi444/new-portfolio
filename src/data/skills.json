@@ -16,7 +16,8 @@
   { "id": "pwa", "name": "PWA", "category": "experienced", "note": "インストール・オフライン対応を設計", "accent": "cyan" },
   { "id": "git-github", "name": "Git／GitHub", "category": "experienced", "note": "バージョン管理と共同開発で使用", "accent": "magenta" },
   { "id": "github-actions", "name": "GitHub Actions", "category": "experienced", "note": "テスト・移行・デプロイの自動化で使用", "accent": "yellow" },
-
+  { "id": "xaml", "name": "XAML", "category": "experienced", "note": "WinUI 3のUI設計で使用", "accent": "magenta" },
+  
   { "id": "linux", "name": "Linux", "category": "learning", "note": "LPICレベル1の範囲を学習中", "accent": "yellow" },
   { "id": "aws", "name": "AWS／Amazon Linux", "category": "learning", "note": "Amazon Linux環境の構築・運用基礎を学習", "accent": "magenta" },
   { "id": "docker", "name": "Docker", "category": "learning", "note": "コンテナと開発環境構築の基礎を学習中", "accent": "cyan" },
