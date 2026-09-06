@@ -55,7 +55,7 @@ npm run build
 
 ## 作品画像を追加する
 
-元のPNGを`public/images/works`へ追加し、`src/data/projects.json`にはPNGのパスを指定します。`npm run dev`と`npm run build`の開始時に、更新が必要な画像だけから`-480.webp`と`-960.webp`が自動生成されます。
+元のPNGを`public/images/works`へ追加し、`src/data/projects.json`にはPNGのパスを指定します。`npm run dev`と`npm run build`の開始時に、更新が必要な画像だけから表示用の`-480.webp`と`-960.webp`が`public/images/works/display`へ自動生成されます。
 
 画像変換だけを実行する場合は次のコマンドを使用します。
 

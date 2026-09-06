@@ -136,7 +136,10 @@ export class ProjectsSection extends Section<Project[]> {
   };
 
   private optimizedSources(src: string): { small: string; large: string } {
-    const base = src.replace(/\.png$/i, "");
+    const separatorIndex = src.lastIndexOf("/");
+    const directory = src.slice(0, separatorIndex);
+    const fileName = src.slice(separatorIndex + 1).replace(/\.png$/i, "");
+    const base = `${directory}/display/${fileName}`;
     return { small: `${base}-480.webp`, large: `${base}-960.webp` };
   }
 

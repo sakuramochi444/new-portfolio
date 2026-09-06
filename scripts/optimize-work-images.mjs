@@ -1,10 +1,11 @@
-import { readdir, stat } from "node:fs/promises";
+import { mkdir, readdir, stat } from "node:fs/promises";
 import { extname, join, parse } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const scriptDirectory = fileURLToPath(new URL(".", import.meta.url));
 const worksDirectory = join(scriptDirectory, "..", "public", "images", "works");
+const displayDirectory = join(worksDirectory, "display");
 const variants = [
   { suffix: "-480.webp", width: 480, quality: 76 },
   { suffix: "-960.webp", width: 960, quality: 82 },
@@ -26,12 +27,14 @@ const sourceFiles = (await readdir(worksDirectory, { withFileTypes: true }))
 
 let generatedCount = 0;
 
+await mkdir(displayDirectory, { recursive: true });
+
 for (const sourceFile of sourceFiles) {
   const sourcePath = join(worksDirectory, sourceFile);
   const sourceName = parse(sourceFile).name;
 
   for (const variant of variants) {
-    const outputPath = join(worksDirectory, `${sourceName}${variant.suffix}`);
+    const outputPath = join(displayDirectory, `${sourceName}${variant.suffix}`);
     if (!(await needsUpdate(sourcePath, outputPath))) continue;
 
     await sharp(sourcePath)
