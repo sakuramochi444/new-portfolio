@@ -1,51 +1,5 @@
 [
   {
-    "id": "lifeledger",
-    "title": "LifeLedger",
-    "period": "2026.08 - 継続中",
-    "summary": "暮らしのお金を、ひと目で把握できる個人向け家計管理Webアプリ",
-    "tier": "featured",
-    "status": "非公開",
-    "overview": "収入・支出、定期購入、予算、年間レポートを一つの画面で管理できる、個人向けの家計管理PWAです。",
-    "problem": "家計の記録・予算・定期支出が別々になり、現在の収支や今後の請求を把握しづらい状態を解消したいと考えました。",
-    "role": "個人開発として、企画、要件定義、画面設計、フロントエンド、API、認証、データベース、テスト、運用設計を担当しました。",
-    "implementation": [
-      "主要機能を5つのタブに整理し、PCとスマートフォンで迷いにくい情報設計にしました。",
-      "Cloudflare AccessのJWTをWorker側で検証し、検索・更新・削除を認証ユーザーIDで分離しています。",
-      "Service Workerは静的ファイルとオフライン案内だけをキャッシュし、APIレスポンスや家計データを端末へ残さない方針にしました。"
-    ],
-    "outcome": "D1への取引保存、Cronによる定期取引の自動登録、Web Pushによる請求前通知・週間サマリーまで実装済みです。個人データ保護のため、デモ環境は限定公開しています。",
-    "aiUsage": "コード実装では生成AIを活用しました。扱うデータの範囲、認証・キャッシュ方針、要件定義、動作確認とテストは自分で判断して進めています。",
-    "tags": ["Next.js 16", "React 19", "TypeScript", "Cloudflare D1", "Drizzle ORM", "PWA"],
-    "skillIds": ["nextjs", "react", "typescript", "cloudflare", "workers", "d1", "drizzle", "pwa"],
-    "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/LifeLedger.git" }],
-    "accent": "yellow",
-    "images": ["/images/works/lifeledger-1.png", "/images/works/lifeledger-2.png", "/images/works/lifeledger-3.png", "/images/works/lifeledger-4.png"]
-  },
-  {
-    "id": "focusflow",
-    "title": "FocusFlow",
-    "period": "2026.07 - 継続中",
-    "summary": "集中と休憩を、心地よいリズムで切り替えるタイマーPWA",
-    "tier": "standard",
-    "status": "公開中",
-    "overview": "作業と休憩を自動で繰り返し、必要な補助機能だけを選んで使えるポモドーロ形式の集中タイマーPWAです。",
-    "problem": "多機能な集中ツールは設定が複雑になりやすいため、すぐに計測を始められ、必要なときだけ機能を増やせる体験を目指しました。",
-    "role": "個人開発として、企画、要件定義、画面設計、フロントエンド、PWA対応、テスト、運用設計を担当しました。",
-    "implementation": [
-      "終了予定時刻から残り時間を再計算し、バックグラウンド復帰後も表示がずれにくいタイマーにしました。",
-      "設定やタスクはLocalStorage、ユーザーが取り込んだBGMはIndexedDBに分けて保存しています。",
-      "内蔵BGMはWorkerの許可リストを通して非公開R2から配信し、Rangeリクエストにも対応しました。"
-    ],
-    "outcome": "タイマー、タスク、BGM、関数電卓、集中ガードとCloudflare Workersへのデプロイ構成を実装済みです。アカウント登録や利用記録の収集は行いません。",
-    "aiUsage": "コード実装では生成AIを活用しました。機能の優先順位、保存先の選定、タイマーの仕様、要件定義、端末ごとの動作確認とテストは自分で行いました。",
-    "tags": ["Next.js 16", "React 19", "TypeScript", "Cloudflare Workers", "PWA", "Cloudflare R2"],
-    "skillIds": ["nextjs", "react", "typescript", "cloudflare", "workers", "r2", "pwa"],
-    "links": [{ "label": "GitHub", "url": "https://github.com/sakuramochi444/FocusFlow.git" }],
-    "accent": "magenta",
-    "images": ["/images/works/focusflow-1.png", "/images/works/focusflow-2.png", "/images/works/focusflow-3.png", "/images/works/focusflow-4.png"]
-  },
-  {
     "id": "mymanager",
     "title": "MyManager",
     "period": "2026.07 - 継続中",
